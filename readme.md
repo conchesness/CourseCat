@@ -4,4 +4,4 @@ run the following commands in the terminal: <br>
 python -m pip install flask-moment -U <br>
 python -m pip install certifi
 
-https://deploy.cloud.run/?git_repo=https://github.com/steve-leke/CapFlaskTemplate
+https://deploy.cloud.run/?git_repo=https://github.com/conchesness/CourseCat
