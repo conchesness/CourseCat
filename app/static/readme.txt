@@ -1,0 +1,1 @@
+Files in static are things like images and css that do not change and are not code

@@ -1,0 +1,49 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-white">
+  <div class="container-fluid mb-3">
+    <a class="navbar-brand .navbar-text display-1 font-weight-bold" href="/">iRate</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 display-7" style="margin: 0% 37%;"> 
+        <li class="nav-item">
+          <a class="nav-link h-5 font-weight-bold" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/aboutus">About Us</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/activecourses">Active Courses</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/teacher/list">Teachers</a>
+        </li>
+        <li>
+      </li> 
+      </ul>
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        {% if current_user.is_anonymous %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="/myprofile">
+              {{ current_user.gname }} 
+              (
+              {{current_user.role}} 
+              {% if current_user.isadmin %} , Admin {% endif %}
+              )
+            </a>
+            
+          </li>          
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+          </li>
+          {% endif %}
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>  

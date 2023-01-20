@@ -1,0 +1,30 @@
+<!-- This is a blank template.  You can copy this to make a new template page. -->
+
+{% extends 'base.html' %}
+
+{% block body %}
+<h1>
+    Teacher Profile: {{teacher.fname}} {{teacher.lname}}
+    {% if teacher.pronouns %}
+        ({{teacher.pronouns}})
+    {% endif %}
+</h1>
+{% if teacher.image %}
+<img class="img-thumbnail img-fluid" width='200' src="data:image;base64,{{base64encode(teacher.image.read())}}"> <br>
+{% else %}
+<img class="img-thumbnail" width = "100" src="/static/bdog.jpg">
+{% endif %} 
+<br>
+{{teacher.email}} <br>
+RM: {{teacher.troom_number}} <br>
+Teacher Number: {{teacher.teacher_number}}
+<h3>Classes</h3>
+<ul>
+{% for tc in tCourses  %}
+    <li><a href="/teachercourse/{{tc.id}}">{{tc.course.course_title}}</a></li>
+{% endfor %}
+</ul>
+{% if current_user.id == teacher.id or current_user.isadmin %}
+    <a href="/teachercourse/add/{{teacher.id}}"><button type="button" class="btn btn-primary">Add a course</button></a>
+{% endif %}
+{% endblock %}
