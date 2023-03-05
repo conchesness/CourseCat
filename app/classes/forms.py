@@ -25,8 +25,26 @@ class ProfileForm(FlaskForm):
     role = SelectField('Role',choices=[("Teacher","Teacher"),("Student","Student")])
     school = SelectField('School',choices=[("Oakland Technical High School","Oakland Technical High School")])
     image = FileField("Image") 
-    role = SelectField('role',choices=[("Teacher","Teacher"),("Student", "Student")])
     submit = SubmitField('Post')
+
+onetoten = [(0,"---"),(1,1),(2,2),(3,3),(4,4),(5,5),(6,6),(7,7),(8,8),(9,9),(10,10)]
+class TeacherForm(FlaskForm):
+    pronouns = StringField('Pronouns')
+    fname = StringField('First Name', validators=[DataRequired()])
+    lname = StringField('Last Name', validators=[DataRequired()]) 
+    teacher_number = IntegerField('Teacher Number')
+    troom_number = StringField('Room Number')
+    tdescription = TextAreaField('Description')
+    tacademy = SelectField('Academy', choices=pathways)
+    tdepartment = SelectField('Department',choices=departments)
+    troom_phone = StringField('Phone Number', validators=[Optional()])
+    image = FileField("Image") 
+    leniency = SelectField('Leniency', choices=[(0,"---"),(1,"No late work"),(2,"Late work with penalties"),(3,"Late work allowed")])
+    empathy = SelectField('Empathy',choices=onetoten)
+    feedback = SelectField('Openness to Feedback',choices=[(0,"---"),(1,"No feedback"),(2,"Willing to receive feedback"),(3,"Feedback actively sought")])
+    patience = SelectField('Patience', choices=onetoten)
+    classcontrol = SelectField('Classroom Environment',choices=[(0,"---"),(1,"Noisey/Chaotic"),(2,"infrequently quiet/Controlled"),(3,"Controlled chaos"),(4,"Usually quiet/Controlled"),(5,"Always quite/Controlled")])
+    submit = SubmitField('Submit')
 
 class PostForm(FlaskForm):
     subject = StringField('Subject', validators=[DataRequired()])

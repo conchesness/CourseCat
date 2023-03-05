@@ -38,12 +38,20 @@ class User(UserMixin, Document):
     school = StringField()
     pronouns = StringField()
     
-    # Below Is All The Teacher Keys
+    # Below Is teacher only data
     teacher_number = IntField(sparse=True,unique=True)
     troom_number = StringField()
     tdescription = StringField()
     tacademy = StringField()
+    tdepartment = StringField()
     troom_phone = IntField()
+
+    # Self-rating
+    leniency = IntField()
+    empathy = IntField()
+    feedback = IntField()
+    patience = IntField()
+    classcontrol = IntField()
 
     meta = {
         'ordering': ['lname','fname']

@@ -4,18 +4,26 @@
 
 {% block body %}
 
-{% if withtc != "1" %}
-<h1>All Teachers</h1>
-<a href="/teacher/list/1">Only show teachers with Teacher Courses</a> 
-{% else %}
-<h1>Teachers With Courses</h1>
-<a href="/teacher/list">Show all teachers</a> 
-{% endif %}
+
+<h1>Teachers</h1>
+<h3>
+    <a href="/teacher/list">All</a>
+    {% for searchLetter in teacherFirstLetters %}
+        <a href="/teacher/list/{{searchLetter}}">{{searchLetter}}</a>
+    {% endfor %}
+</h3>
 <br> <br>
+
+
+{% set ns = namespace(letter="") %}
 {% for teacher in teachers %}
+{% if ns.letter != teacher.lname[0] %}
+    {% set ns.letter = teacher.lname[0] %}
+    <h2>{{ns.letter}}</h2>
+{% endif %}
 
 <!--a href="/user/delete/{{teacher.id}}"><img width="20" src="/static/delete.png"></a-->
-<a href="/teacher/{{teacher.id}}" class="text-capitalize">{{teacher.fname}} {{teacher.lname}} {{teacher.teacher_number}}</a> <br>
+<h3><a href="/teacher/{{teacher.id}}" class="text-capitalize">{{teacher.fname}} {{teacher.lname}}</a></h3> 
 
 {% endfor %}
 {% endblock %}

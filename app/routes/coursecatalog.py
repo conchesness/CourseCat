@@ -4,7 +4,7 @@ import mongoengine.errors
 from flask import render_template, flash, redirect, url_for
 from flask_login import current_user
 from app.classes.data import Courses, Comment, TeacherCourse, User
-from app.classes.forms import CoursesForm, CommentForm, CourseFilterForm, TeacherCourseForm
+from app.classes.forms import TeacherForm, CoursesForm, CommentForm, CourseFilterForm, TeacherCourseForm
 from flask_login import login_required
 import datetime as dt
 from mongoengine import Q
@@ -17,8 +17,15 @@ def course(courseID):
     teacherCourses = TeacherCourse.objects(course = thisCourse)
     return render_template('course.html',course=thisCourse, comments=theseComments, teacherCourses=teacherCourses)
 
-@app.route('/allcourses')
-def getActiveCourses():
+
+@app.route('/course/list')
+@app.route('/activecourses')
+@app.route('/activecourses/<skip>')
+@login_required
+def activecourses(skip=0):
+    skip=int(skip)
+    limit=20
+
     # pipeline is how pymongo access the mongodb aggregation API 
     # https://pymongo.readthedocs.io/en/stable/examples/aggregation.html
     # the $lookup aggregation stage is how mongodb does "outer left joins"
@@ -31,29 +38,36 @@ def getActiveCourses():
                     "foreignField": "teacher",
                     "as": "courses"
                     }
+                },
+                {
+                    "$skip": skip  # No. of documents to skip (Should be `0` for Page - 1)
+                },
+                {
+                    "$limit": limit  # No. of documents to be displayed on your webpage
+                }
+        ]
+    countPipeline = [
+                {"$lookup":
+                    {
+                    "from": "TeacherCourses",
+                    "localField": "teacher",
+                    "foreignField": "teacher",
+                    "as": "courses"
+                    }
+                },
+                {
+                    "$count": "total"  # No. of documents to skip (Should be `0` for Page - 1)
                 }
         ]
     # aggregate is how mongoengine access pymongo 
     # http://docs.mongoengine.org/guide/querying.html#aggregation
+    total = Courses.objects().aggregate(countPipeline)
+    total = list(total)[0]['total']
     courses = Courses.objects().aggregate(pipeline)
-    return(courses)
+    skip=skip+limit
 
-@app.route('/course/list')
-@app.route('/activecourses')
-@login_required
-def activecourses():
+    return render_template('courses.html',courses=courses,skip=skip,limit=limit,total=total,title="Active Courses")
 
-    courses = getActiveCourses()
-
-    return render_template('courses.html',courses=courses,title="Active Courses")
-
-@app.route('/allcourses')
-@login_required
-def courseList():
-
-    allCourses = Courses.objects()
-
-    return render_template('courses.html',courses=allCourses, title="All Courses")
 
 @app.route('/course/new', methods=['GET', 'POST'])
 @login_required
@@ -217,36 +231,102 @@ def teacherCourseAdd(teacherID,courseID=None):
         return redirect(url_for("teacher",teacherID=teacherID))
 
 
-@app.route('/teacher/list/<withtc>')
+@app.route('/teacher/list/<letter>')
 @app.route('/teacher/list')
 @login_required
-def teacherList(withtc=0):
-    if withtc == 0:
-        teachers = User.objects(role="Teacher")
-    else:
-        tCourses = TeacherCourse.objects()
-        teacherids = set()
-        teachers=[]
-        for tc in tCourses:
-            try:
-                tc.teacher
-            except:
-                tc.delete()
-            else:
-                if tc.teacher.id not in teacherids:
-                    teacherids.add(tc.teacher.id)
-                    teachers.append(tc.teacher)
-        teachers.sort(key=lambda x: x.lname.lower())
+def teacherList(letter=None):
+    teacherFirstLetters = set()
+    allTeachers = User.objects(role="Teacher")
+    for teacher in allTeachers:
+        teacherFirstLetters.add(teacher.lname[0].upper())
+    teacherFirstLetters = list(teacherFirstLetters)
+    teacherFirstLetters.sort()
 
-    return render_template('teachers.html',teachers=teachers,withtc=withtc)
+    if letter:
+        teachers = User.objects(role="Teacher",lname__istartswith=letter)
+    else:
+        teachers=allTeachers
+
+    return render_template('teachers.html',teachers=teachers,teacherFirstLetters=teacherFirstLetters)
+
+def findChoice(choices,value,both=False):
+    for data in choices:
+        if value == data[0]:
+            if both:
+                return(f"{data[0]}-{data[1]}")
+            else:
+                return(data[1])
+    return('---')
 
 
 @app.route('/teacher/<teacherID>')
 @login_required
 def teacher(teacherID):
     teacher = User.objects.get(id=teacherID)
+    form = TeacherForm()
+    
+    teacher.leniency = findChoice(form.leniency.choices,teacher.leniency)
+    teacher.feedback = findChoice(form.feedback.choices,teacher.feedback)
+    teacher.classcontrol = findChoice(form.classcontrol.choices,teacher.classcontrol)    
+
     tCourses = TeacherCourse.objects(teacher=teacher)
-    return render_template('teacher.html',teacher=teacher,tCourses=tCourses)
+    return render_template('teacher.html',teacher=teacher,tCourses=tCourses, form=form)
+
+@app.route('/teacher/edit/<teacherID>', methods=['GET', 'POST'])
+@login_required
+def teacherEdit(teacherID):
+
+    if teacherID != current_user.id and not current_user.isadmin:
+        flash("You don't have the privleges to edit this record.")
+        return redirect(url_for('teacher',teacherID=teacherID))
+
+    form = TeacherForm()
+    teacher = User.objects.get(id=teacherID)
+
+    if form.validate_on_submit():
+        if not form.troom_phone.data:
+            form.troom_phone.data = 0
+        teacher.update(
+            teacher_number = form.teacher_number.data,
+            troom_number = form.troom_number.data,
+            tdescription = form.tdescription.data,
+            tacademy = form.tacademy.data,
+            tdepartment = form.tdepartment.data,
+            troom_phone = form.troom_phone.data,
+            pronouns = form.pronouns.data,
+            fname = form.fname.data,
+            lname = form.lname.data,
+            leniency = form.leniency.data,
+            empathy = form.empathy.data,
+            feedback = form.feedback.data,
+            patience = form.patience.data,
+            classcontrol = form.classcontrol.data
+        )
+        if form.image.data:
+            if teacher.image:
+                teacher.image.delete()
+            teacher.image.put(form.image.data, content_type = 'image/jpeg')
+            teacher.save()
+
+        return redirect(url_for('teacher',teacherID=teacherID))
+
+    form.teacher_number.data = teacher.teacher_number
+    form.troom_number.data = teacher.troom_number
+    form.tdescription.data = teacher.tdescription
+    form.tacademy.data = teacher.tacademy
+    if teacher.troom_phone != 0:
+        form.troom_phone.data = teacher.troom_phone
+    form.tdepartment.data = teacher.tdepartment
+    form.pronouns.data = teacher.pronouns
+    form.fname.data = teacher.fname
+    form.lname.data = teacher.lname
+    form.leniency.process_data(teacher.leniency)
+    form.empathy.process_data(teacher.empathy)
+    form.feedback.process_data(teacher.feedback)
+    form.patience.process_data(teacher.patience)
+    form.classcontrol.process_data(teacher.classcontrol)
+
+    return render_template('teacheredit.html', form=form, teacher=teacher)
 
 
 @app.route('/comment/new/<courseID>', methods=['GET', 'POST'])

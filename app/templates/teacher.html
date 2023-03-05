@@ -1,30 +1,92 @@
 <!-- This is a blank template.  You can copy this to make a new template page. -->
 
 {% extends 'base.html' %}
-
 {% block body %}
-<h1>
-    Teacher Profile: {{teacher.fname}} {{teacher.lname}}
+{% if current_user.id == teacher.id or current_user.isadmin %}
+<a href="/teacher/edit/{{teacher.id}}"><img width="50" src="/static/edit.png"></a>
+{% endif %}
+
+<h1 class="display-1">
+    {{teacher.fname}} {{teacher.lname}}
     {% if teacher.pronouns %}
         ({{teacher.pronouns}})
     {% endif %}
 </h1>
-{% if teacher.image %}
-<img class="img-thumbnail img-fluid" width='200' src="data:image;base64,{{base64encode(teacher.image.read())}}"> <br>
-{% else %}
-<img class="img-thumbnail" width = "100" src="/static/bdog.jpg">
-{% endif %} 
-<br>
-{{teacher.email}} <br>
-RM: {{teacher.troom_number}} <br>
-Teacher Number: {{teacher.teacher_number}}
-<h3>Classes</h3>
-<ul>
-{% for tc in tCourses  %}
-    <li><a href="/teachercourse/{{tc.id}}">{{tc.course.course_title}}</a></li>
-{% endfor %}
-</ul>
-{% if current_user.id == teacher.id or current_user.isadmin %}
-    <a href="/teachercourse/add/{{teacher.id}}"><button type="button" class="btn btn-primary">Add a course</button></a>
-{% endif %}
+<div class="row">
+    <div class="col-4">
+        {% if teacher.image %}
+        <img class="img-thumbnail img-fluid" width='200' src="data:image;base64,{{base64encode(teacher.image.read())}}"> <br>
+        {% else %}
+        <img class="img-thumbnail" width = "100" src="/static/bdog.jpg">
+        {% endif %} 
+        <p class="fs-4">
+        {{teacher.email}} <br>
+        RM: {{teacher.troom_number}} <br>
+        {#
+            RM Ph Number
+            {% if teacher.troom_phone == 0 %} 
+                None
+            {% else %}
+                {{teacher.troom_phone}} 
+            {% endif %}<br>
+        #}
+        {# Teacher Number: {{teacher.teacher_number}} #}
+        Academy: {{teacher.tacademy}} <br>
+        Department: {{teacher.tdepartment}} <br>
+        </p>
+
+        <h1 class="display-6">Classes</h1>
+        <ul class="fs-5">
+        {% for tc in tCourses  %}
+
+            {% if tc.course.course_name %}
+                <li><a href="/teachercourse/{{tc.id}}">{{tc.course.course_name}}</a></li>
+            {% else %}
+                <li><a href="/teachercourse/{{tc.id}}">{{tc.course.course_title}}</a></li>
+            {% endif %}
+
+        {% endfor %}
+        </ul>
+        {% if current_user.id == teacher.id or current_user.isadmin %}
+            <a href="/teachercourse/add/{{teacher.id}}"><button type="button" class="btn btn-primary">Add a course</button></a>
+        {% endif %}
+    </div>
+    <div class="col-8">
+        <p class="fs-3 lh-1">
+                Leniency on late work: {{teacher.leniency}} <br>
+                <span class="fs-6">
+                    {% for item in form.leniency.choices %}
+                        {% if item[0] != 0 %}
+                            {{item[0]}}-{{item[1]}},
+                        {% endif %}
+                    {% endfor %}
+                </span>
+                    <br> <br>
+            Openness to feedback: {{teacher.feedback}} <br>
+            <span class="fs-6">
+                {% for item in form.feedback.choices %}
+                    {% if item[0] != 0 %}
+                        {{item[0]}}-{{item[1]}},
+                    {% endif %}
+                {% endfor %}
+            </span>
+                <br> <br>
+            Classroom Environment: {{teacher.classcontrol}} <br>
+            <span class="fs-6">
+                {% for item in form.classcontrol.choices %}
+                    {% if item[0] != 0 %}
+                        {{item[0]}}-{{item[1]}},
+                    {% endif %}
+                {% endfor %}
+            </span>
+                <br> <br>
+            Empathy: {{teacher.empathy}} <br>
+            Patience: {{teacher.patience}} <br>
+        </p>
+        <p class="fs-5">{{teacher.tdescription}}</p>
+
+    </div>
+</div>
+
+
 {% endblock %}

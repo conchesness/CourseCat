@@ -1,0 +1,140 @@
+
+
+{% extends "base.html" %}
+
+{% block body %}
+        <h1 class="display-1">{{teacher.fname}} {{teacher.lname}}</h1>
+
+        <!--List all errors in a group at the top-->
+        {% for field in form.errors %}
+            {% for error in form.errors[field] %}
+                <div class="alert alert-error">
+                    <strong>Error!</strong>{{field}}: {{error}}
+                </div>
+            {% endfor %}
+        {% endfor %}
+            
+        <form action="" method="post" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            <div class="row">
+                <div class="col">
+                    {{ form.pronouns.label }} <br>
+                    {{ form.pronouns(size=20) }}
+                    <!--List the errors for this field-->
+                    {% for error in form.pronouns.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                    <br>
+                    {{ form.fname.label }} <br>
+                    {{ form.fname(size=20) }}
+                    <!--List the errors for this field-->
+                    {% for error in form.fname.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                    <br>
+                    {{ form.lname.label }} <br>
+                    {{ form.lname(size=20) }}
+                    <!--List the errors for this field-->
+                    {% for error in form.lname.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                    <br>
+                    {{ form.teacher_number.label }} <br>
+                    {{ form.teacher_number(size=6) }}
+                    <!--List the errors for this field-->
+                    {% for error in form.teacher_number.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                    <br>
+                    {{ form.troom_number.label }} <br>
+                    {{ form.troom_number(size=6) }}
+                    <!--List the errors for this field-->
+                    {% for error in form.troom_number.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                    <br>
+                    {{ form.tacademy.label }} <br>
+                    {{ form.tacademy() }}
+                    <!--List the errors for this field-->
+                    {% for error in form.tacademy.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                    <br>
+                    {{ form.tdepartment.label }} <br>
+                    {{ form.tdepartment() }}
+                    <!--List the errors for this field-->
+                    {% for error in form.tdepartment.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                    <br>
+                    Room Phone Number<br>
+                    {{ form.troom_phone(size=64) }}
+                    <!--List the errors for this field-->
+                    {% for error in form.troom_phone.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                    <br>
+                    {{ form.image.label }}<br>
+                    {% if teacher.image %}
+                        <img class="img-thumbnail" width="100" src="data:image;base64,{{base64encode(current_user.image.read())}}"> <br>
+                    {% else %}
+                        <img class="img-thumbnail" width = "100" src="/static/bdog.jpg">
+                    {% endif %} <br>
+                    {{ form.image() }}<br>
+                    {% for error in form.image.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </div>
+                <div class="col">
+                    <p class="fs-2">Please rate yourself on each of the following. </p>
+                    Leniency on grading and late work <br>
+                    {{ form.leniency() }}
+                    <!--List the errors for this field-->
+                    {% for error in form.leniency.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                    <br>
+                    {{ form.feedback.label }} <br>
+                    {{ form.feedback() }}
+                    <!--List the errors for this field-->
+                    {% for error in form.feedback.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                    <br>
+                    {{ form.classcontrol.label }} <br>
+                    {{ form.classcontrol() }}
+                    <!--List the errors for this field-->
+                    {% for error in form.classcontrol.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                    <br>
+                    {{ form.empathy.label }} <br>
+                    {{ form.empathy() }}
+                    <!--List the errors for this field-->
+                    {% for error in form.empathy.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                    <br>
+                    {{ form.patience.label }} <br>
+                    {{ form.patience() }}
+                    <!--List the errors for this field-->
+                    {% for error in form.patience.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                    <br>
+                    <p class="fs-2"> Tell us about yourself.</p> What would you like students to know 
+                    about you and your work? Use this space to add any detail to rating fields above.<br>
+                    {{ form.tdescription(cols=64, rows=10) }}
+                    <!--List the errors for this field-->
+                    {% for error in form.tdescription.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                    <br>
+                    
+                </div>
+
+            </div>
+            {{form.submit()}}
+        </form>
+        
+{% endblock %}
