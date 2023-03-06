@@ -45,6 +45,7 @@ class User(UserMixin, Document):
     tacademy = StringField()
     tdepartment = StringField()
     troom_phone = IntField()
+    classroom = StringField()
 
     # Self-rating
     leniency = IntField()

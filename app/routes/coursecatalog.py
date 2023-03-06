@@ -278,7 +278,7 @@ def teacher(teacherID):
 @login_required
 def teacherEdit(teacherID):
 
-    if teacherID != current_user.id and not current_user.isadmin:
+    if teacherID != str(current_user.id) and not current_user.isadmin:
         flash("You don't have the privleges to edit this record.")
         return redirect(url_for('teacher',teacherID=teacherID))
 
@@ -302,7 +302,8 @@ def teacherEdit(teacherID):
             empathy = form.empathy.data,
             feedback = form.feedback.data,
             patience = form.patience.data,
-            classcontrol = form.classcontrol.data
+            classcontrol = form.classcontrol.data,
+            classroom = form.classroom.data
         )
         if form.image.data:
             if teacher.image:
@@ -327,6 +328,7 @@ def teacherEdit(teacherID):
     form.feedback.process_data(teacher.feedback)
     form.patience.process_data(teacher.patience)
     form.classcontrol.process_data(teacher.classcontrol)
+    form.classroom.data = teacher.classroom
 
     return render_template('teacheredit.html', form=form, teacher=teacher)
 
