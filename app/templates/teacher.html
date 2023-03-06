@@ -53,16 +53,18 @@
     </div>
     <div class="col-8">
         <p class="fs-3 lh-1">
-                Leniency on late work: {{teacher.leniency}} <br>
-                <span class="fs-6">
-                    {% for item in form.leniency.choices %}
-                        {% if item[0] != 0 %}
-                            {{item[0]}}-{{item[1]}},
-                        {% endif %}
-                    {% endfor %}
-                </span>
-                    <br> <br>
-            Openness to feedback: {{teacher.feedback}} <br>
+            <span class="fs-2">Late work</span> <br>
+            <span class="fs-4">{{teacher.leniency}}</span> <br>
+            <span class="fs-6">
+                {% for item in form.leniency.choices %}
+                    {% if item[0] != 0 %}
+                        {{item[0]}}-{{item[1]}},
+                    {% endif %}
+                {% endfor %}
+            </span>
+                <br> <br>
+            <span class="fs-2">Openness to feedback</span> <br>
+            <span class="fs-4">{{teacher.feedback}}</span> <br>
             <span class="fs-6">
                 {% for item in form.feedback.choices %}
                     {% if item[0] != 0 %}
@@ -70,8 +72,19 @@
                     {% endif %}
                 {% endfor %}
             </span>
-                <br> <br>
-            Classroom Environment: {{teacher.classcontrol}} <br>
+            <br> <br>
+            <span class="fs-2">Patience</span> <br>
+            <span class="fs-4">{{teacher.patience}}</span> <br>
+            <span class="fs-6">
+                {% for item in form.patience.choices %}
+                    {% if item[0] != 0 %}
+                        {{item[0]}}-{{item[1]}},
+                    {% endif %}
+                {% endfor %}
+            </span>
+                <br><br>
+            <span class="fs-2">Classroom Environment</span> <br>
+            <span class="fs-4">{{teacher.classcontrol}}</span> <br>
             <span class="fs-6">
                 {% for item in form.classcontrol.choices %}
                     {% if item[0] != 0 %}
@@ -80,8 +93,15 @@
                 {% endfor %}
             </span>
                 <br> <br>
-            Empathy: {{teacher.empathy}} <br>
-            Patience: {{teacher.patience}} <br>
+            <span class="fs-2">Grading Flexibility</span> <br>
+            <span class="fs-4">{{teacher.empathy}}</span> <br>
+            <span class="fs-6">
+                {% for item in form.empathy.choices %}
+                    {% if item[0] != 0 %}
+                        {{item[0]}}-{{item[1]}},
+                    {% endif %}
+                {% endfor %}
+            </span>
         </p>
         <p class="fs-5">{{teacher.tdescription}}</p>
 

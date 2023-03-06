@@ -39,11 +39,11 @@ class TeacherForm(FlaskForm):
     tdepartment = SelectField('Department',choices=departments)
     troom_phone = StringField('Phone Number', validators=[Optional()])
     image = FileField("Image") 
-    leniency = SelectField('Leniency', choices=[(0,"---"),(1,"No late work"),(2,"Late work with penalties"),(3,"Late work allowed")])
-    empathy = SelectField('Empathy',choices=onetoten)
-    feedback = SelectField('Openness to Feedback',choices=[(0,"---"),(1,"No feedback"),(2,"Willing to receive feedback"),(3,"Feedback actively sought")])
-    patience = SelectField('Patience', choices=onetoten)
-    classcontrol = SelectField('Classroom Environment',choices=[(0,"---"),(1,"Noisey/Chaotic"),(2,"infrequently quiet/Controlled"),(3,"Controlled chaos"),(4,"Usually quiet/Controlled"),(5,"Always quite/Controlled")])
+    leniency = SelectField('Late Work', choices=[(0,"---"),(1,"No late work"),(2,"In some specific circumstances"),(3,"Late work w/ 50% or more penalty"),(4,"Late work less than 50% penalty"),(5,"Late work allowed")])
+    empathy = SelectField('Grading Flexibility',choices=[(0,"---"),(1,"Students' personal situations do not impact grades"),(2,"Students' personal situations can impact grades with confirmation from an adult."),(3,"Students' personal situations can impact grades if students opens a conversation before there is an issue with their grade."),(4,"Students' personal situations can impact grades if the student opens a conversation."),(5,"Teacher works to monitor students emotions and ask questions and uses the information in making decisions about grades.")])
+    feedback = SelectField('Openness to Feedback',choices=[(0,"---"),(1,"No feedback"),(2,"Only if prompted by teacher."),(3,"If the student feels uncomfortable/attacked"),(4,"Willing to receive feedback any time"),(5,"Feedback actively sought.")])
+    patience = SelectField('Patience', choices=[(0,"---"),(1,"No tolerance policy for disruptions, distractions, bad behavior"),(2,"1 warning before referral to admin or grade penalty"),(3,"Several warnings before referral to admin or grade penalty"),(4,"Teacher works with disruptive students to address issues."),(5,"Teacher works to build productive relationships with students and actively engages in their personal growth.")])
+    classcontrol = SelectField('Classroom Environment',choices=[(0,"---"),(1,"Noisey or Chaotic"),(2,"Mostly noisey or chaotic"),(3,"Noisey but not chaotic"),(4,"Mostly Quiet/Controlled"),(5,"Always Quite/Controlled")])
     submit = SubmitField('Submit')
 
 class PostForm(FlaskForm):
@@ -74,9 +74,8 @@ class TeacherCourseForm(FlaskForm):
     course = SelectField('Course',choices=[],validate_choice=False)
     course_description = TextAreaField('Course Description')
     is_paideia = BooleanField('Paideia')
-    course_link = URLField("A link to a Google Document or a folder",validators=[(Optional()),URL()])
+    course_link = URLField("Link to syllabus",validators=[(Optional()),URL()], render_kw={"placeholder": "https://..."})
     submit = SubmitField('Submit')
 
-# Start building out the physical forms. Follow the process you used to create the school tag
 
 

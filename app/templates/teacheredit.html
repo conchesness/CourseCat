@@ -17,7 +17,7 @@
         <form action="" method="post" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
             <div class="row">
-                <div class="col">
+                <div class="col-4">
                     {{ form.pronouns.label }} <br>
                     {{ form.pronouns(size=20) }}
                     <!--List the errors for this field-->
@@ -68,7 +68,7 @@
                     {% endfor %}
                     <br>
                     Room Phone Number<br>
-                    {{ form.troom_phone(size=64) }}
+                    {{ form.troom_phone(size=10) }}
                     <!--List the errors for this field-->
                     {% for error in form.troom_phone.errors %}
                         <span style="color: red;">[{{ error }}]</span>
@@ -85,7 +85,7 @@
                     <span style="color: red;">[{{ error }}]</span>
                     {% endfor %}
                 </div>
-                <div class="col">
+                <div class="col-8">
                     <p class="fs-2">Please rate yourself on each of the following. </p>
                     Leniency on grading and late work <br>
                     {{ form.leniency() }}

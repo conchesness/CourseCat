@@ -268,6 +268,8 @@ def teacher(teacherID):
     teacher.leniency = findChoice(form.leniency.choices,teacher.leniency)
     teacher.feedback = findChoice(form.feedback.choices,teacher.feedback)
     teacher.classcontrol = findChoice(form.classcontrol.choices,teacher.classcontrol)    
+    teacher.patience = findChoice(form.patience.choices,teacher.patience)    
+    teacher.empathy = findChoice(form.empathy.choices,teacher.empathy)    
 
     tCourses = TeacherCourse.objects(teacher=teacher)
     return render_template('teacher.html',teacher=teacher,tCourses=tCourses, form=form)
