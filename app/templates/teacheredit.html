@@ -122,6 +122,13 @@
                         <span style="color: red;">[{{ error }}]</span>
                     {% endfor %}
                     <br>
+                    <p class="fs-2"> {{ form.classroom.label }} </p>
+                    {{ form.classroom(cols=64, rows=4) }}
+                    <!--List the errors for this field-->
+                    {% for error in form.classroom.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                    <br>
                     <p class="fs-2"> Tell us about yourself.</p> What would you like students to know 
                     about you and your work? Use this space to add any detail to rating fields above.<br>
                     {{ form.tdescription(cols=64, rows=10) }}
