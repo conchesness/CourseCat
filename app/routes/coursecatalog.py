@@ -1,7 +1,7 @@
 from traceback import format_exception_only
 from app import app
 import mongoengine.errors
-from flask import render_template, flash, redirect, url_for
+from flask import render_template, flash, redirect, url_for, Markup
 from flask_login import current_user
 from app.classes.data import Courses, Comment, TeacherCourse, User
 from app.classes.forms import TeacherForm, CoursesForm, CommentForm, CourseFilterForm, TeacherCourseForm
@@ -249,14 +249,15 @@ def teacherList(letter=None):
 
     return render_template('teachers.html',teachers=teachers,teacherFirstLetters=teacherFirstLetters)
 
-def findChoice(choices,value,both=False):
+def findChoice(choices,value):
+    choiceList = ""
     for data in choices:
+        if data[0] > 0:
+            choiceList = choiceList + f"{data[0]} - {data[1]} <br>"
         if value == data[0]:
-            if both:
-                return(f"{data[0]}-{data[1]}")
-            else:
-                return(data[1])
-    return('---')
+            choice = f"{data[0]}-{data[1]}"
+    choiceList = Markup(choiceList)
+    return(choice,choiceList)
 
 
 @app.route('/teacher/<teacherID>')
@@ -265,11 +266,11 @@ def teacher(teacherID):
     teacher = User.objects.get(id=teacherID)
     form = TeacherForm()
     
-    teacher.leniency = findChoice(form.leniency.choices,teacher.leniency)
-    teacher.feedback = findChoice(form.feedback.choices,teacher.feedback)
-    teacher.classcontrol = findChoice(form.classcontrol.choices,teacher.classcontrol)    
-    teacher.patience = findChoice(form.patience.choices,teacher.patience)    
-    teacher.empathy = findChoice(form.empathy.choices,teacher.empathy)    
+    teacher.leniency,teacher.leniencyChoices = findChoice(form.leniency.choices,teacher.leniency)
+    teacher.feedback, teacher.feedbackChoices = findChoice(form.feedback.choices,teacher.feedback)
+    teacher.classcontrol, teacher.classcontrolChoices = findChoice(form.classcontrol.choices,teacher.classcontrol)
+    teacher.patience, teacher.patienceChoices = findChoice(form.patience.choices,teacher.patience) 
+    teacher.empathy, teacher.empathyChoices = findChoice(form.empathy.choices,teacher.empathy)
 
     tCourses = TeacherCourse.objects(teacher=teacher)
     return render_template('teacher.html',teacher=teacher,tCourses=tCourses, form=form)
