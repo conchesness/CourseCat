@@ -7,3 +7,7 @@
     content: "●";
     margin-right: 0.75rem;
   }
+
+.tooltip .tooltip-inner{
+    max-width: 600px;
+  }
