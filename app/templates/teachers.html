@@ -16,14 +16,22 @@
 
 
 {% set ns = namespace(letter="") %}
-{% for teacher in teachers %}
-{% if ns.letter != teacher.lname[0] %}
-    {% set ns.letter = teacher.lname[0] %}
-    <h2>{{ns.letter}}</h2>
-{% endif %}
+<div class="row">
+    {% for teacher in teachers %}
+        {% if ns.letter != teacher.lname[0] %}
+            <div class="col-12">
+                {% set ns.letter = teacher.lname[0] %}
+                <br>
+                <h2>{{ns.letter}}</h2>
+            </div>
+        {% endif %}
+        <div class="col-3">
+            <h3><a href="/teacher/{{teacher.id}}" class="text-capitalize">{{teacher.fname}} {{teacher.lname}}</a></h3> 
+        </div>
+    {% endfor %}
+</div>
 
-<!--a href="/user/delete/{{teacher.id}}"><img width="20" src="/static/delete.png"></a-->
-<h3><a href="/teacher/{{teacher.id}}" class="text-capitalize">{{teacher.fname}} {{teacher.lname}}</a></h3> 
 
-{% endfor %}
+
+
 {% endblock %}

@@ -58,7 +58,7 @@
                 <img src="/static/info.png" width="20">
             </span> <br>
             <span class="fs-4">
-                {{teacher.leniency}} 
+                    {{teacher.leniency}} 
             </span>
                 <br> <br>
             <span class="fs-2" data-toggle="tooltip" data-bs-html="true" data-bs-width="400" data-placement="top" title="{{teacher.feedbackChoices}}">
@@ -94,9 +94,21 @@
             </span> <br>
         </p>
         <p class="fs-2">Personal Statement</p>
-        <p class="fs-5">{{teacher.tdescription}}</p>
+        <p class="fs-5">
+            {% if teacher.tdescription %}
+                {{teacher.tdescription}}
+            {% else %}
+                &#60;So Much Empty>
+            {% endif %}
+        </p>
         <p class="fs-2">Classroom</p>
-        <p class="fs-5">{{teacher.classroom}}</p>
+        <p class="fs-5">
+            {% if teacher.classroom %}
+                {{teacher.classroom}}
+            {% else %}
+                &#60;So Much Empty>
+            {% endif %}
+        </p>
     </div>
 </div>
 

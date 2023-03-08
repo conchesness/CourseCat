@@ -251,11 +251,14 @@ def teacherList(letter=None):
 
 def findChoice(choices,value):
     choiceList = ""
+    choice="<So Much Empty>"
     for data in choices:
         if data[0] > 0:
             choiceList = choiceList + f"{data[0]} - {data[1]} <br>"
         if value == data[0]:
             choice = f"{data[0]}-{data[1]}"
+        if value == 0:
+            choice = "<So Much Empty>"
     choiceList = Markup(choiceList)
     return(choice,choiceList)
 
@@ -289,6 +292,8 @@ def teacherEdit(teacherID):
     if form.validate_on_submit():
         if not form.troom_phone.data:
             form.troom_phone.data = 0
+        fname=form.fname.data.title()
+        lname=form.lname.data.title()
         teacher.update(
             teacher_number = form.teacher_number.data,
             troom_number = form.troom_number.data,
@@ -297,8 +302,8 @@ def teacherEdit(teacherID):
             tdepartment = form.tdepartment.data,
             troom_phone = form.troom_phone.data,
             pronouns = form.pronouns.data,
-            fname = form.fname.data,
-            lname = form.lname.data,
+            fname = fname,
+            lname = lname,
             leniency = form.leniency.data,
             empathy = form.empathy.data,
             feedback = form.feedback.data,
