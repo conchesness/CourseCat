@@ -17,7 +17,7 @@
     <a href="/course/new" class="btn btn-primary btn-sm mt-5" role="button">New Course</a>
 </div>
 
-
+{% if skip and limit %}
 Showing: {{skip-limit+1}} - 
 {% if skip+1 < total %}
     {{skip+1}} of {{total}}
@@ -31,6 +31,7 @@ Showing: {{skip-limit+1}} -
 
 {% if skip+1 < total %}
     <a href="/activecourses/{{skip}}">Next</a>-->
+{% endif %}
 {% endif %}
 
 <table class="table">

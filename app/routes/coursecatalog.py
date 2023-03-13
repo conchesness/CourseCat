@@ -136,16 +136,20 @@ def courseEdit(courseID):
 @app.route('/course/delete/<courseID>')
 @login_required
 def courseDelete(courseID):
-    deleteCourse = Courses.objects.get(id=courseID)
-    if current_user.isadmin:
-        flash(f'The Course {deleteCourse.course_title} is being deleted.')
-        deleteCourse.delete()
+    try:
+        deleteCourse = Courses.objects.get(id=courseID)
+    except:
+        flash("This course doesn't exist.  I may have already been deleted.")
     else:
-        flash("You can't delete a post you don't own.")
-    course = Courses.objects()  
+        if current_user.isadmin:
+            flash(f'The Course {deleteCourse.course_title} is being deleted.')
+            deleteCourse.delete()
+        else:
+            flash("You can't delete a post you don't own.")
+    courses = Courses.objects()  
     form = CourseFilterForm()
 
-    return render_template('courses.html',courses=course, form=form)
+    return redirect(url_for('activecourses'))
 
 
 @app.route('/teachercourse/<tcid>')
