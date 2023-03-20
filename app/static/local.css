@@ -11,3 +11,12 @@
 .tooltip .tooltip-inner{
     max-width: 600px;
   }
+
+html body {
+    background-color: #ecdbf9;
+  }
+
+.navbar-dark {
+    background-color: #9e00ff;
+    color: #fff;
+  }
