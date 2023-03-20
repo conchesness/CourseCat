@@ -18,19 +18,76 @@ def course(courseID):
     return render_template('course.html',course=thisCourse, comments=theseComments, teacherCourses=teacherCourses)
 
 
-@app.route('/course/list')
-@app.route('/activecourses')
-@app.route('/activecourses/<skip>')
+@app.route('/course/list', methods=['GET', 'POST'])
+@app.route('/activecourses', methods=['GET', 'POST'])
+@app.route('/activecourses/<skip>', methods=['GET', 'POST'])
 @login_required
 def activecourses(skip=0):
     skip=int(skip)
     limit=20
 
-    # pipeline is how pymongo access the mongodb aggregation API 
-    # https://pymongo.readthedocs.io/en/stable/examples/aggregation.html
-    # the $lookup aggregation stage is how mongodb does "outer left joins"
-    # which means everything in table1 (left) and everything in table2 (right) that is in table 1
-    pipeline = [
+    form = CourseFilterForm()
+
+    if form.validate_on_submit():
+
+        if form.incomplete.data:
+            form.department.data=""
+            match = {"$match" : 
+                    {
+                        "$or":
+                            [
+                                {"course_department" : ""},
+                                {"course_ag_requirement" : ""}
+                            ]
+                    },
+                }
+        elif form.department.data and form.name.data:
+            # regex allows for partial matches and option i is case insensitive
+            match = {"$match" : 
+                    {
+                        "course_department" : form.department.data,
+                        "$or":
+                            [   
+                                {"course_name" : {"$regex":form.name.data, '$options' : 'i'}},
+                                {"course_title" : {"$regex":form.name.data, '$options' : 'i'}}
+                            ]
+                    },
+                }
+        elif form.department.data and not form.name.data:
+            match = {"$match" : 
+                    {
+                        "course_department" : form.department.data,
+                    },
+                }
+        elif not form.department.data and form.name.data:
+            match = {"$match" : 
+                        {"$or":
+                            [
+                                {"course_name" : {"$regex":form.name.data, '$options' : 'i'}},
+                                {"course_title" : {"$regex":form.name.data, '$options' : 'i'}}
+                            ]
+                        },
+                    }
+        countPipeline = [
+                {"$match" : {"course_department" : form.department.data}},
+                {"$lookup":
+                    {
+                    "from": "TeacherCourses",
+                    "localField": "teacher",
+                    "foreignField": "teacher",
+                    "as": "courses"
+                    }
+                },
+                {
+                    "$count": "total"  # No. of documents to skip (Should be `0` for Page - 1)
+                }
+            ]
+        total = Courses.objects().aggregate(countPipeline)
+        total = list(total)[0]['total']
+        limit = total
+        skip = 0
+        pipeline = [
+                match,
                 {"$lookup":
                     {
                     "from": "TeacherCourses",
@@ -45,28 +102,49 @@ def activecourses(skip=0):
                 {
                     "$limit": limit  # No. of documents to be displayed on your webpage
                 }
-        ]
-    countPipeline = [
-                {"$lookup":
+            ]
+    else:
+        # pipeline is how pymongo access the mongodb aggregation API 
+        # https://pymongo.readthedocs.io/en/stable/examples/aggregation.html
+        # the $lookup aggregation stage is how mongodb does "outer left joins"
+        # which means everything in table1 (left) and everything in table2 (right) that is in table 1
+        pipeline = [
+                    {"$lookup":
+                        {
+                        "from": "TeacherCourses",
+                        "localField": "teacher",
+                        "foreignField": "teacher",
+                        "as": "courses"
+                        }
+                    },
                     {
-                    "from": "TeacherCourses",
-                    "localField": "teacher",
-                    "foreignField": "teacher",
-                    "as": "courses"
+                        "$skip": skip  # No. of documents to skip (Should be `0` for Page - 1)
+                    },
+                    {
+                        "$limit": limit  # No. of documents to be displayed on your webpage
                     }
-                },
-                {
-                    "$count": "total"  # No. of documents to skip (Should be `0` for Page - 1)
-                }
-        ]
+            ]
+        countPipeline = [
+                    {"$lookup":
+                        {
+                        "from": "TeacherCourses",
+                        "localField": "teacher",
+                        "foreignField": "teacher",
+                        "as": "courses"
+                        }
+                    },
+                    {
+                        "$count": "total"  # No. of documents to skip (Should be `0` for Page - 1)
+                    }
+            ]
     # aggregate is how mongoengine access pymongo 
     # http://docs.mongoengine.org/guide/querying.html#aggregation
-    total = Courses.objects().aggregate(countPipeline)
-    total = list(total)[0]['total']
+        total = Courses.objects().aggregate(countPipeline)
+        total = list(total)[0]['total']
     courses = Courses.objects().aggregate(pipeline)
     skip=skip+limit
 
-    return render_template('courses.html',courses=courses,skip=skip,limit=limit,total=total,title="Active Courses")
+    return render_template('courses.html',courses=courses,skip=skip,limit=limit,total=total,title="Active Courses",form=form)
 
 
 @app.route('/course/new', methods=['GET', 'POST'])

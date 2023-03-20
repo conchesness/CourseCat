@@ -88,8 +88,15 @@ class Courses(Document):
     modify_date = DateTimeField()
 
     meta = {
-        'ordering': ['-createdate']
-    }
+        'ordering': ['-createdate'],
+        'indexes':
+            [
+                {
+                    'fields': ['course_name','course_title'],
+                    'collation' : {'locale': 'en', 'strength': 2} 
+                }   
+            ]
+        }
 
 class TeacherCourse(Document):
     teachercourseid = StringField(sparse=True, required=True,unique=True)

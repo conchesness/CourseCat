@@ -13,9 +13,40 @@
         <small>Some of these classes are NOT being taught this year so they may not be taught next year.</small>
         {% endif %}
 
-<div class="d-flex justify-content-center">
+<div class="mb-3">
     <a href="/course/new" class="btn btn-primary btn-sm mt-5" role="button">New Course</a>
 </div>
+<br> 
+<!--List all errors in a group at the top-->
+{% for field in form.errors %}
+    {% for error in form.errors[field] %}
+        <div class="alert alert-error">
+            <strong>Error!</strong>{{field}}: {{error}}
+        </div>
+    {% endfor %}
+{% endfor %}
+
+<form method=post>
+    {{ form.hidden_tag() }}
+
+    <h5>Filter</h1>
+    <div class="row border border-3 pt-2">
+        <div class="col">
+            {{form.name}} <br> Name (Partial is OK)
+        </div>
+        <div class="col">
+            {{form.department}} <br> Department
+        </div>
+        <div class="col">
+            {{form.incomplete}} <br> Incomplete?
+        </div>
+        <div class="col">
+            {{form.submit()}}
+        </div>
+        <div class="col-4"></div>
+    </div>
+</form>
+<br>
 
 {% if skip and limit %}
 Showing: {{skip-limit+1}} - 
