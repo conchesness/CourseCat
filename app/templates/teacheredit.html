@@ -87,13 +87,13 @@
                 </div>
                 <div class="col-8">
                     <p class="fs-2">Please rate yourself on each of the following. </p>
-                    Leniency on grading and late work <br>
-                    {{ form.leniency() }}
+                    <p class="fs-4">Late work</p>
+                    None {{ form.leniency(min=1, max=5) }} Whenever
                     <!--List the errors for this field-->
                     {% for error in form.leniency.errors %}
                         <span style="color: red;">[{{ error }}]</span>
                     {% endfor %}
-                    <br>
+                    <br> <br>
                     {{ form.feedback.label }} <br>
                     {{ form.feedback() }}
                     <!--List the errors for this field-->
