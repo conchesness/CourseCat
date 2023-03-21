@@ -351,7 +351,7 @@ def teacher(teacherID):
     teacher = User.objects.get(id=teacherID)
     form = TeacherForm()
     
-    teacher.leniency,teacher.leniencyChoices = findChoice(form.leniency.choices,teacher.leniency)
+    #teacher.leniency,teacher.leniencyChoices = findChoice(form.leniency.choices,teacher.leniency)
     teacher.feedback, teacher.feedbackChoices = findChoice(form.feedback.choices,teacher.feedback)
     teacher.classcontrol, teacher.classcontrolChoices = findChoice(form.classcontrol.choices,teacher.classcontrol)
     teacher.patience, teacher.patienceChoices = findChoice(form.patience.choices,teacher.patience) 

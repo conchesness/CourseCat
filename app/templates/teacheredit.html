@@ -93,7 +93,9 @@
                     {% for error in form.leniency.errors %}
                         <span style="color: red;">[{{ error }}]</span>
                     {% endfor %}
-                    <br> <br>
+                    <br> <textarea name="comment" rows="4" cols="64">Explain (optional)</textarea><br>
+
+                    <br>
                     {{ form.feedback.label }} <br>
                     {{ form.feedback() }}
                     <!--List the errors for this field-->
