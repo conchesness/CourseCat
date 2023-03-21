@@ -20,3 +20,12 @@ html body {
     background-color: #9e00ff;
     color: #fff;
   }
+
+.nav-link {
+  color: rgba(255,255,255,.8) !important;
+  font-weight: bold;
+}
+
+.nav-link:hover, .nav-link:focus {
+  color: #fff !important;
+}
