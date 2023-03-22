@@ -49,6 +49,7 @@ class User(UserMixin, Document):
 
     # Self-rating
     leniency = IntField()
+    leniency_policy = StringField()
     empathy = IntField()
     feedback = IntField()
     patience = IntField()

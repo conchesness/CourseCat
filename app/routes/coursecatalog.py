@@ -387,6 +387,7 @@ def teacherEdit(teacherID):
             fname = fname,
             lname = lname,
             leniency = form.leniency.data,
+            leniency_policy = form.leniency_policy.data,
             empathy = form.empathy.data,
             feedback = form.feedback.data,
             patience = form.patience.data,
@@ -412,6 +413,7 @@ def teacherEdit(teacherID):
     form.fname.data = teacher.fname
     form.lname.data = teacher.lname
     form.leniency.process_data(teacher.leniency)
+    form.leniency_policy.process_data(teacher.leniency_policy)
     form.empathy.process_data(teacher.empathy)
     form.feedback.process_data(teacher.feedback)
     form.patience.process_data(teacher.patience)
