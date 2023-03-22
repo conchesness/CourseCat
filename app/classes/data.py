@@ -48,12 +48,13 @@ class User(UserMixin, Document):
     classroom = StringField()
 
     # Self-rating
-    leniency = IntField()
-    leniency_policy = StringField()
-    empathy = IntField()
+    late_work = IntField()
+    late_work_policy = StringField()
     feedback = IntField()
-    patience = IntField()
+    feedback_policy = StringField()
     classcontrol = IntField()
+    classcontrol_policy = StringField()
+    grading_policy = StringField()
 
     meta = {
         'ordering': ['lname','fname']

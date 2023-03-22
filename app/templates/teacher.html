@@ -52,16 +52,15 @@
         {% endif %}
     </div>
     <div class="col-8">
-        <p class="fs-2 lh-1">
             <p class="fs-2 mb-0 pb-0">
                 Late work
             </p>
-            {% if teacher.leniency %}
+            {% if teacher.late_work %}
             <p class="fs-6 mt-0 pt-0">
                 Never 
                 {% for i in range(1,6) %}
-                    {% if teacher.leniency == i %}
-                        <span class="fs-3"><b>{{teacher.leniency}}</b></span>
+                    {% if teacher.late_work == i %}
+                        <span class="fs-3"><b>{{teacher.late_work}}</b></span>
                     {% else %}
                         {{i}}
                     {% endif %}
@@ -71,49 +70,76 @@
                 {% endfor %}
                  Always
             </p>
-                {% if teacher.leniency_policy %}
+                {% if teacher.late_work_policy %}
                     <p>
-                        <b>Policy:</b> <br>
-                        {{teacher.leniency_policy}}
+                        {{teacher.late_work_policy}}
                     </p>
                 {% endif %}
             {% else %}
                 &#60;So Much Empty> <br>
             {% endif %}
-            <span class="fs-2" data-toggle="tooltip" data-bs-html="true" data-bs-width="400" data-placement="top" title="{{teacher.feedbackChoices}}">
-                Openness to feedback
-                <img src="/static/info.png" width="20">
-            </span> <br>
-            <span class="fs-4">
-                {{teacher.feedback}}
-            </span>
-            <br> <br>
-            <span class="fs-2" data-toggle="tooltip" data-bs-html="true" data-bs-width="400" data-placement="top" title="{{teacher.patienceChoices}}">
-                Patience
-                <img src="/static/info.png" width="20">    
-            </span> <br>
-            <span class="fs-4">
-                {{teacher.patience}}
-            </span>
-                <br><br>
-            <span class="fs-2" data-toggle="tooltip" data-bs-html="true" data-bs-width="400" data-placement="top" title="{{teacher.classcontrolChoices}}">
+            <p class="fs-2 my-0 py-0">
+                Openness to Feedback
+            </p>
+            <p class="fs-6 my-0 py-0">
+                {% if teacher.feedback %}
+                    Never 
+                    {% for i in range(1,6) %}
+                        {% if teacher.feedback == i %}
+                            <span class="fs-3"><b>{{teacher.feedback}}</b></span>
+                        {% else %}
+                            {{i}}
+                        {% endif %}
+                        {% if i < 5 %}
+                            &nbsp;-&nbsp;
+                        {% endif %}
+                    {% endfor %}
+                    Always
+                    {% if teacher.feedback_policy %}
+                        <p>
+                            {{teacher.feedback_policy}}
+                        </p>
+                    {% endif %}
+                {% else %}
+                    &#60;So Much Empty> 
+                {% endif %}
+            </p>
+            <p class="fs-2">
                 Classroom Environment
-                <img src="/static/info.png" width="20">
-            </span> <br>
-            <span class="fs-4">
-                {{teacher.classcontrol}}
-            </span>
-                <br> <br>
-            <span class="fs-2" data-toggle="tooltip" data-bs-html="true" data-bs-width="400" data-placement="top" title="{{teacher.empathyChoices}}">
-                Grading Flexibility
-                <img src="/static/info.png" width="20">
-            </span> <br>
-            <span class="fs-4">
-                {{teacher.empathy}}
-            </span> <br>
+            </p>
+            <p class="fs-6 mt-0 pt-0">
+                {% if teacher.classcontrol %}
+                    Chaos 
+                    {% for i in range(1,6) %}
+                        {% if teacher.classcontrol == i %}
+                            <span class="fs-3"><b>{{teacher.classcontrol}}</b></span>
+                        {% else %}
+                            {{i}}
+                        {% endif %}
+                        {% if i < 5 %}
+                            &nbsp;-&nbsp;
+                        {% endif %}
+                    {% endfor %}
+                    Control
+                    {% if teacher.classcontrol_policy %}
+                        <p>
+                            {{teacher.classcontrol_policy}}
+                        </p>
+                    {% endif %}
+                {% else %}
+                    &#60;So Much Empty> 
+                {% endif %}
+            </p>
+        <p class="fs-2">Grading Policy</p>
+        <p class="fs-6">
+            {% if teacher.grading_policy %}
+                {{teacher.grading_policy}}
+            {% else %}
+                &#60;So Much Empty>
+            {% endif %}
         </p>
         <p class="fs-2">Personal Statement</p>
-        <p class="fs-5">
+        <p class="fs-6">
             {% if teacher.tdescription %}
                 {{teacher.tdescription}}
             {% else %}
@@ -121,7 +147,7 @@
             {% endif %}
         </p>
         <p class="fs-2">Classroom</p>
-        <p class="fs-5">
+        <p class="fs-6">
             {% if teacher.classroom %}
                 {{teacher.classroom}}
             {% else %}

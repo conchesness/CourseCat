@@ -351,12 +351,6 @@ def teacher(teacherID):
     teacher = User.objects.get(id=teacherID)
     form = TeacherForm()
     
-    #teacher.leniency,teacher.leniencyChoices = findChoice(form.leniency.choices,teacher.leniency)
-    teacher.feedback, teacher.feedbackChoices = findChoice(form.feedback.choices,teacher.feedback)
-    teacher.classcontrol, teacher.classcontrolChoices = findChoice(form.classcontrol.choices,teacher.classcontrol)
-    teacher.patience, teacher.patienceChoices = findChoice(form.patience.choices,teacher.patience) 
-    teacher.empathy, teacher.empathyChoices = findChoice(form.empathy.choices,teacher.empathy)
-
     tCourses = TeacherCourse.objects(teacher=teacher)
     return render_template('teacher.html',teacher=teacher,tCourses=tCourses, form=form)
 
@@ -386,13 +380,14 @@ def teacherEdit(teacherID):
             pronouns = form.pronouns.data,
             fname = fname,
             lname = lname,
-            leniency = form.leniency.data,
-            leniency_policy = form.leniency_policy.data,
-            empathy = form.empathy.data,
+            late_work = form.late_work.data,
+            late_work_policy = form.late_work_policy.data,
             feedback = form.feedback.data,
-            patience = form.patience.data,
+            feedback_policy = form.feedback_policy.data,
             classcontrol = form.classcontrol.data,
-            classroom = form.classroom.data
+            classcontrol_policy = form.classcontrol_policy.data,
+            classroom = form.classroom.data,
+            grading_policy = form.grading_policy.data
         )
         if form.image.data:
             if teacher.image:
@@ -412,13 +407,14 @@ def teacherEdit(teacherID):
     form.pronouns.data = teacher.pronouns
     form.fname.data = teacher.fname
     form.lname.data = teacher.lname
-    form.leniency.process_data(teacher.leniency)
-    form.leniency_policy.process_data(teacher.leniency_policy)
-    form.empathy.process_data(teacher.empathy)
+    form.late_work.process_data(teacher.late_work)
+    form.late_work_policy.process_data(teacher.late_work_policy)
     form.feedback.process_data(teacher.feedback)
-    form.patience.process_data(teacher.patience)
+    form.feedback_policy.process_data(teacher.feedback_policy)
     form.classcontrol.process_data(teacher.classcontrol)
+    form.classcontrol_policy.process_data(teacher.classcontrol_policy)
     form.classroom.data = teacher.classroom
+    form.grading_policy.process_data(teacher.grading_policy)
 
     return render_template('teacheredit.html', form=form, teacher=teacher)
 

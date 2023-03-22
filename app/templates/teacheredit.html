@@ -88,39 +88,50 @@
                 <div class="col-8">
                     <p class="fs-2">Please rate yourself on each of the following. </p>
                     <p class="fs-4">Late work</p>
-                    Never {{ form.leniency(min=1, max=5) }} Always
+                    Never {{ form.late_work(min=1, max=5) }} Always
                     <!--List the errors for this field-->
-                    {% for error in form.leniency.errors %}
+                    {% for error in form.late_work.errors %}
                         <span style="color: red;">[{{ error }}]</span>
                     {% endfor %}
                     <br>
-                    {{form.leniency_policy(rows=4, cols=64)}}
+                    {{form.late_work_policy(rows=4, cols=64)}}
                     <br>
-                    {{ form.feedback.label }} <br>
-                    {{ form.feedback() }}
+                    <p class="fs-4">{{ form.feedback.label }}</p>
+                    Never {{ form.feedback(min=1, max=5, default=3) }} Always
                     <!--List the errors for this field-->
                     {% for error in form.feedback.errors %}
                         <span style="color: red;">[{{ error }}]</span>
                     {% endfor %}
                     <br>
-                    {{ form.classcontrol.label }} <br>
-                    {{ form.classcontrol() }}
+                    {{ form.feedback_policy.label }} <br>
+                    {{ form.feedback_policy(rows=4, cols=64) }}
+                    <!--List the errors for this field-->
+                    {% for error in form.feedback_policy.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                    <br>
+                    <p class="fs-4">{{ form.classcontrol.label }}</p>
+                    Chaos {{ form.classcontrol(min=1, max=5, default=3) }} Control
                     <!--List the errors for this field-->
                     {% for error in form.classcontrol.errors %}
                         <span style="color: red;">[{{ error }}]</span>
                     {% endfor %}
                     <br>
-                    {{ form.empathy.label }} <br>
-                    {{ form.empathy() }}
+                    {{ form.classcontrol_policy.label }} <br>
+                    {{ form.classcontrol_policy(rows=4, cols=64) }}
                     <!--List the errors for this field-->
-                    {% for error in form.empathy.errors %}
+                    {% for error in form.classcontrol_policy.errors %}
                         <span style="color: red;">[{{ error }}]</span>
                     {% endfor %}
                     <br>
-                    {{ form.patience.label }} <br>
-                    {{ form.patience() }}
+                    <p class="fs-2"> {{ form.grading_policy.label }} </p>
+                    <p class="fs-6">
+                        What is your grading system? do you use a 50% floor? Do you use a 4 point system?
+                        Do you grade on a curve? What are your A-F grade ranges? 
+                    </p>
+                    {{ form.grading_policy(cols=64, rows=4) }}
                     <!--List the errors for this field-->
-                    {% for error in form.patience.errors %}
+                    {% for error in form.grading_policy.errors %}
                         <span style="color: red;">[{{ error }}]</span>
                     {% endfor %}
                     <br>
