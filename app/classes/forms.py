@@ -82,5 +82,12 @@ class TeacherCourseForm(FlaskForm):
     course_link = URLField("Link to syllabus",validators=[(Optional()),URL()], render_kw={"placeholder": "https://..."})
     submit = SubmitField('Submit')
 
-
+class StudentReviewForm(FlaskForm):
+    year_taken = IntegerField("Year You Took the Course",validators=[(InputRequired())])
+    late_work = IntegerRangeField("Late Work",validators=[(InputRequired())])
+    feedback = IntegerRangeField("Feedback",validators=[(InputRequired())])
+    classcontrol = IntegerRangeField("Class Control",validators=[(InputRequired())])
+    grading_policy = IntegerRangeField("Grading Policy",validators=[(InputRequired())])
+    classroom_environment = IntegerRangeField("Classroom Environment",validators=[(InputRequired())])
+    submit = SubmitField('Submit')
 

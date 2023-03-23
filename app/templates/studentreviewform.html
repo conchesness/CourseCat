@@ -1,0 +1,174 @@
+<!-- this is a generic form page.  Best way to make a new form page is to 
+copy this one and then edit it. -->
+
+{% extends "base.html" %}
+
+{% block body %}
+        <h1>{{current_user.fname}} {{current_user.lname}}'s review of {{tCourse.teacher.fname}} {{tCourse.teacher.lname}}'s {{tCourse.course.course_name}} class.</h1>
+
+        <!--List all errors in a group at the top-->
+        {% for field in form.errors %}
+            {% for error in form.errors[field] %}
+                <div class="alert alert-error">
+                    <strong>Error!</strong>{{field}}: {{error}}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        <form method=post>
+            {{ form.hidden_tag() }}
+
+            <p>
+                {{ form.year_taken.label }}: 
+                {{ form.year_taken(size=6) }} 
+                <!--List the errors for this field-->
+                {% for error in form.year_taken.errors %}
+                    <br><span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            
+            <div class="row">
+                <div class="col-5">
+                    <p class="fs-1">Your Review</p>
+                </div>
+                <div class="col-7">
+                    <p class="fs-1">Teacher Responses</p>
+                </div>
+                <div class="col-5">            
+                    <p class="fs-2">
+                        {{ form.late_work.label }}
+                    </p>
+                    <p>
+                        Never {{ form.late_work() }} Always 
+                        <!--List the errors for this field-->
+                        {% for error in form.late_work.errors %}
+                            <br><span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+
+                </div>
+                <div class="col-7">
+                    <p class="fs-6">
+                        Never 
+                        {% for i in range(1,6) %}
+                            {% if tCourse.teacher.late_work == i %}
+                                <span class="fs-2"><b>{{tCourse.teacher.late_work}}</b></span>
+                            {% else %}
+                                {{i}}
+                            {% endif %}
+                            {% if i < 5 %}
+                                &nbsp;-&nbsp;
+                            {% endif %}
+                        {% endfor %}
+                         Always
+                    </p>
+                    <p class="fs-6">{{tCourse.teacher.late_work_policy}}</p>
+                </div>
+                <div class="col-12"><hr class="w-100"></div>
+                <div class="col-5">
+                    <p class="fs-2">
+                        {{ form.feedback.label }}
+                    </p>
+                    <p>
+                        Never {{ form.feedback() }} Always 
+                        <!--List the errors for this field-->
+                        {% for error in form.feedback.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+                </div>
+                <div class="col-7">
+                    <p class="fs-6">
+                        Never 
+                        {% for i in range(1,6) %}
+                            {% if tCourse.teacher.feedback == i %}
+                                <span class="fs-2"><b>{{tCourse.teacher.feedback}}</b></span>
+                            {% else %}
+                                {{i}}
+                            {% endif %}
+                            {% if i < 5 %}
+                                &nbsp;-&nbsp;
+                            {% endif %}
+                        {% endfor %}
+                         Always
+                    </p>
+                    <p class="fs-6">{{tCourse.teacher.feedback_policy}}</p>
+                </div>
+                <div class="col-12"><hr class="w-100"></div>
+                <div class="col-5">
+                    <p class="fs-2">
+                        {{ form.classcontrol.label }}
+                    </p>
+                    <p>
+                        Chaotic {{ form.classcontrol() }} Controlled
+                        <!--List the errors for this field-->
+                        {% for error in form.classcontrol.errors %}
+                            <br><span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>                
+                </div>
+                <div class="col-7">
+                    <p class="fs-6">
+                        Chaos 
+                        {% for i in range(1,6) %}
+                            {% if tCourse.teacher.classcontrol == i %}
+                                <span class="fs-2"><b>{{tCourse.teacher.classcontrol}}</b></span>
+                            {% else %}
+                                {{i}}
+                            {% endif %}
+                            {% if i < 5 %}
+                                &nbsp;-&nbsp;
+                            {% endif %}
+                        {% endfor %}
+                         Control
+                    </p>
+                    <p class="fs-6">{{tCourse.teacher.classcontrol_policy}}</p>                
+                </div>
+                <div class="col-12"><hr class="w-100"></div>
+                <div class="col-5">
+                    <p class="fs-2">
+                        {{ form.grading_policy.label }}
+                    </p>
+                    <p>
+                        Confusing {{ form.grading_policy() }} Clear
+                        <!--List the errors for this field-->
+                        {% for error in form.grading_policy.errors %}
+                            <br><span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>                
+                </div>
+                <div class="col-7">
+                    <p class="fs-6 pt-5">{{tCourse.teacher.grading_policy}}</p>                
+                </div>
+                <div class="col-12"><hr class="w-100"></div>
+                <div class="col-5">
+                    <p class="fs-2">
+                        {{ form.classroom_environment.label }}
+                    </p>
+                    <p>
+                        Cold  {{ form.classroom_environment() }} Warm
+                        <!--List the errors for this field-->
+                        {% for error in form.classroom_environment.errors %}
+                            <br><span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>                </div>
+                <div class="col-7">
+                    <p class="fs-6 pt-5">{{tCourse.teacher.classroom}}</p>                
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+            {{form.submit()}}
+        </form>
+        
+{% endblock %}

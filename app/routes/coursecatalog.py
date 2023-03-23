@@ -3,8 +3,8 @@ from app import app
 import mongoengine.errors
 from flask import render_template, flash, redirect, url_for, Markup
 from flask_login import current_user
-from app.classes.data import Courses, Comment, TeacherCourse, User
-from app.classes.forms import TeacherForm, CoursesForm, CommentForm, CourseFilterForm, TeacherCourseForm
+from app.classes.data import Courses, Comment, TeacherCourse, User, StudentReview
+from app.classes.forms import StudentReviewForm, TeacherForm, CoursesForm, CommentForm, CourseFilterForm, TeacherCourseForm
 from flask_login import login_required
 import datetime as dt
 from mongoengine import Q
@@ -276,16 +276,6 @@ def teacherCourseEdit(tcid):
     return render_template('teachercourseform.html',form=form,teacherCourse=thisTC)
 
 
-@app.route('/unsetteachercourseid')
-def unsetteachercourseid():
-    tcs = TeacherCourse.objects()
-    length = len(tcs)
-    for i,tc in enumerate(tcs):
-        tc.update(teachercourseid=f"{tc.teacher.id}-{tc.course.id}")
-        print(f"{i}/{length}")
-    return redirect(url_for('index'))
-
-
 @app.route('/teachercourse/add/<teacherID>')
 @app.route('/teachercourse/add/<teacherID>/<courseID>')
 @login_required
@@ -413,10 +403,37 @@ def teacherEdit(teacherID):
     form.feedback_policy.process_data(teacher.feedback_policy)
     form.classcontrol.process_data(teacher.classcontrol)
     form.classcontrol_policy.process_data(teacher.classcontrol_policy)
-    form.classroom.data = teacher.classroom
+    form.classroom.process_data(teacher.classroom)
     form.grading_policy.process_data(teacher.grading_policy)
 
     return render_template('teacheredit.html', form=form, teacher=teacher)
+
+@app.route('/studentreview/new/<tcid>')
+@login_required
+def studentReviewNew(tcid):
+    tCourse = TeacherCourse.objects.get(id=tcid)
+    form = StudentReviewForm()
+
+    if form.validate_on_submit():
+
+        newStudentReview = StudentReview(
+            teacher_course = tCourse,
+            student = current_user,
+            year_taken = form.year_taken.data,
+            late_work = form.late_work.data,
+            feedback = form.feedback.data,
+            classcontrol = form.classcontrol.data,
+            grading_policy = form.grading_policy.data,
+            classroom_environment = form.classroom_environment.data,
+            modify_date = dt.datetime.utcnow
+        )
+
+        newStudentReview.save()
+
+        return render_template("studentreview.html", studentReview=newStudentReview)
+    
+    return render_template("studentreviewform.html", form=form, tCourse=tCourse)
+
 
 
 @app.route('/comment/new/<courseID>', methods=['GET', 'POST'])

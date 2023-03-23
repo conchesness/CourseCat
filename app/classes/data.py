@@ -45,7 +45,6 @@ class User(UserMixin, Document):
     tacademy = StringField()
     tdepartment = StringField()
     troom_phone = IntField()
-    classroom = StringField()
 
     # Self-rating
     late_work = IntField()
@@ -55,6 +54,7 @@ class User(UserMixin, Document):
     classcontrol = IntField()
     classcontrol_policy = StringField()
     grading_policy = StringField()
+    classroom = StringField()
 
     meta = {
         'ordering': ['lname','fname']
@@ -115,15 +115,21 @@ class TeacherCourse(Document):
         'ordering': ['-createdate']
     }
 
-    # Refercnce Teacher Class
+class StudentReview(Document):
+    teacher_course = ReferenceField('TeacherCourse')
+    student = ReferenceField('User')
+    year_taken = IntField()
+    late_work = IntField()
+    feedback = IntField()
+    classcontrol = IntField()
+    grading_policy = IntField()
+    classroom_environment = IntField()
+    create_date = DateTimeField(default=dt.datetime.utcnow)
+    modify_date = DateTimeField()
+
 class Comment(Document):
-    # Line 63 is a way to access all the information in Course and Teacher w/o storing it in this class
     author = ReferenceField('User',reverse_delete_rule=CASCADE) 
-    # post = ReferenceField('Post',reverse_delete_rule=CASCADE)
     course = ReferenceField('Courses',reverse_delete_rule=CASCADE)
-    # This could be used to allow comments on comments
-    # comment = ReferenceField('Comment',reverse_delete_rule=CASCADE)
-    # Line 68 is where you store all the info you need but won't find in the Course and Teacher Object
     content = StringField()
     create_date = DateTimeField(default=dt.datetime.utcnow)
     modify_date = DateTimeField()
