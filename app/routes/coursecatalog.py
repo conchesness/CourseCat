@@ -364,7 +364,6 @@ def teacherEdit(teacherID):
         fname=form.fname.data.title()
         lname=form.lname.data.title()
         teacher.update(
-            teacher_number = form.teacher_number.data,
             troom_number = form.troom_number.data,
             tdescription = form.tdescription.data,
             tacademy = form.tacademy.data,
@@ -391,7 +390,6 @@ def teacherEdit(teacherID):
 
         return redirect(url_for('teacher',teacherID=teacherID))
 
-    form.teacher_number.data = teacher.teacher_number
     form.troom_number.data = teacher.troom_number
     form.tdescription.data = teacher.tdescription
     form.tacademy.data = teacher.tacademy

@@ -34,7 +34,6 @@ class TeacherForm(FlaskForm):
     pronouns = StringField('Pronouns')
     fname = StringField('First Name', validators=[DataRequired()])
     lname = StringField('Last Name', validators=[DataRequired()]) 
-    teacher_number = IntegerField('Teacher Number')
     troom_number = StringField('Room Number')
     tdescription = TextAreaField('Description')
     tacademy = SelectField('Academy', choices=pathways)

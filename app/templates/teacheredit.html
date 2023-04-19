@@ -39,13 +39,6 @@
                         <span style="color: red;">[{{ error }}]</span>
                     {% endfor %}
                     <br>
-                    {{ form.teacher_number.label }} <br>
-                    {{ form.teacher_number(size=6) }}
-                    <!--List the errors for this field-->
-                    {% for error in form.teacher_number.errors %}
-                        <span style="color: red;">[{{ error }}]</span>
-                    {% endfor %}
-                    <br>
                     {{ form.troom_number.label }} <br>
                     {{ form.troom_number(size=6) }}
                     <!--List the errors for this field-->
