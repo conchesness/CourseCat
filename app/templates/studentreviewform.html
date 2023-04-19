@@ -17,19 +17,18 @@ copy this one and then edit it. -->
 
         <form method=post>
             {{ form.hidden_tag() }}
-
-            <p>
-                {{ form.year_taken.label }}: 
-                {{ form.year_taken(size=6) }} 
-                <!--List the errors for this field-->
-                {% for error in form.year_taken.errors %}
-                    <br><span style="color: red;">[{{ error }}]</span>
-                {% endfor %}
-            </p>
             
             <div class="row">
                 <div class="col-5 bg-white">
                     <p class="fs-1">Your Review</p>
+                    <p>
+                        {{ form.year_taken.label }}: 
+                        {{ form.year_taken(size=6) }} 
+                        <!--List the errors for this field-->
+                        {% for error in form.year_taken.errors %}
+                            <br><span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
                 </div>
                 <div class="col-7">
                     <p class="fs-1">Teacher Responses</p>
