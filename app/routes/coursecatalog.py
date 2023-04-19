@@ -8,6 +8,17 @@ from app.classes.forms import StudentReviewForm, TeacherForm, CoursesForm, Comme
 from flask_login import login_required
 import datetime as dt
 from mongoengine import Q
+import json
+import pandas as pd
+
+@app.route('/resultstocsv')
+def resultsToCSV():
+    courses = Courses.objects()
+    coursesDict = json.loads(courses.to_json())
+    tcDF = pd.DataFrame(coursesDict)
+    tcDF.to_csv('tc.csv')
+
+    return render_template('index.html')
 
 @app.route('/course/<courseID>')
 @login_required
@@ -370,6 +381,7 @@ def teacherEdit(teacherID):
             pronouns = form.pronouns.data,
             fname = fname,
             lname = lname,
+            paideia = form.paideia.data,
             late_work = form.late_work.data,
             late_work_policy = form.late_work_policy.data,
             feedback = form.feedback.data,
@@ -397,6 +409,7 @@ def teacherEdit(teacherID):
     form.pronouns.data = teacher.pronouns
     form.fname.data = teacher.fname
     form.lname.data = teacher.lname
+    form.paideia.process_data(teacher.paideia)
     form.late_work.process_data(teacher.late_work)
     form.late_work_policy.process_data(teacher.late_work_policy)
     form.feedback.process_data(teacher.feedback)
@@ -431,6 +444,12 @@ def studentReviewNew(tcid):
         newStudentReview.save()
 
         return render_template("studentreview.html", studentReview=newStudentReview)
+    
+    form.classcontrol.data = 3
+    form.feedback.data = 3
+    form.grading_policy.data = 3
+    form.classroom_environment.data = 3
+    form.late_work.data = 3
     
     return render_template("studentreviewform.html", form=form, tCourse=tCourse)
 

@@ -41,6 +41,7 @@ class TeacherForm(FlaskForm):
     tdepartment = SelectField('Department',choices=departments)
     troom_phone = StringField('Phone Number', validators=[Optional()])
     image = FileField("Image") 
+    paideia = BooleanField("Paideia")
     late_work = IntegerRangeField('Late Work')
     late_work_policy = TextAreaField('Late Work Policy', render_kw={"placeholder": "Late Work Policy (optional)"})
     feedback = IntegerRangeField('Openness to Feedback')
