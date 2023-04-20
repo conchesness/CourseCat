@@ -58,7 +58,8 @@ class User(UserMixin, Document):
     classroom = StringField()
 
     meta = {
-        'ordering': ['lname','fname']
+        'ordering': ['lname','fname'],
+        'strict': False
     }
     
 
