@@ -411,7 +411,7 @@ def teacherEdit(teacherID):
 
     return render_template('teacheredit.html', form=form, teacher=teacher)
 
-@app.route('/studentreview/new/<tcid>')
+@app.route('/studentreview/new/<tcid>', methods=['GET', 'POST'])
 @login_required
 def studentReviewNew(tcid):
     tCourse = TeacherCourse.objects.get(id=tcid)
