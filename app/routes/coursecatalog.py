@@ -434,7 +434,7 @@ def studentReviewNew(tcid):
     tCourse = TeacherCourse.objects.get(id=tcid)
     reviews = StudentReview.objects(teacher_course=tCourse,student=current_user)
     if len(reviews) > 0:
-        flash("you have already reviewed this class.")
+        flash("you have already reviewed this class. You can delete it from your profile page.")
         return redirect(url_for("teachercourse",tcid=tcid))
 
     form = StudentReviewForm()
