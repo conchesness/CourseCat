@@ -33,6 +33,19 @@
         {% endif %}
     </div>
 </div>
+<div class="row">
+    <div class="col">
+        {% for rev in myReviews %}
+            {{rev.teacher_course.course.course_title}} 
+            {{rev.teacher_course.teacher.lname}} 
+            {{rev.late_work}} 
+            {{rev.feedback}} 
+            {{rev.classcontrol}}
+            {{rev.classroom_environment}}
+            {{rev.grading_policy}} <br>
+        {% endfor %}
+    </div>
+</div>
 <br>
 
 

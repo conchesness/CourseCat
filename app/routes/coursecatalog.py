@@ -245,7 +245,8 @@ def courseDelete(courseID):
 @login_required
 def teachercourse(tcid):
     thisTC = TeacherCourse.objects.get(id=tcid)
-    return render_template("teachercourse.html",tCourse = thisTC)
+    sRevs = StudentReview.objects(teacher_course = thisTC)
+    return render_template("teachercourse.html",tCourse = thisTC, sRevs=sRevs)
 
 
 @app.route('/teachercourse/delete/<tcid>')
@@ -411,10 +412,28 @@ def teacherEdit(teacherID):
 
     return render_template('teacheredit.html', form=form, teacher=teacher)
 
+@app.route('/srevs')
+def srevs():
+    if current_user.email != "stephen.wright@ousd.org":
+        return redirect("/")
+    sRevs = StudentReview.objects()
+    return render_template('srevs.html',sRevs=sRevs)
+
+@app.route('/srev/delete/<srid>')
+def srevdelete(srid):
+    thisSRev = StudentReview.objects.get(id=srid)
+    thisSRev.delete()
+    return redirect(url_for('srevs'))
+
 @app.route('/studentreview/new/<tcid>', methods=['GET', 'POST'])
 @login_required
 def studentReviewNew(tcid):
     tCourse = TeacherCourse.objects.get(id=tcid)
+    reviews = StudentReview.objects(teacher_course=tCourse,student=current_user)
+    if len(reviews) > 0:
+        flash("you have already reviewed this class.")
+        return redirect(url_for("teachercourse",tcid=tcid))
+
     form = StudentReviewForm()
 
     if form.validate_on_submit():
@@ -433,7 +452,7 @@ def studentReviewNew(tcid):
 
         newStudentReview.save()
 
-        return render_template("studentreview.html", studentReview=newStudentReview)
+        return render_template("studentreview.html", sRev=newStudentReview)
     
     form.classcontrol.data = 3
     form.feedback.data = 3
