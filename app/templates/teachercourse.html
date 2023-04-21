@@ -35,10 +35,6 @@
 {% endif %}
 <br> <br>
 Number of Reviews: {{sRevs | length}} <br>
-{% for rev in sRevs %}
-    {{rev.student.fname}}, 
-{% endfor %}
-
 <a href="/studentreview/new/{{tCourse.id}}"><button type="button" class="btn btn-primary">New Student Review</button></a>
 
 {% endblock %}

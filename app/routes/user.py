@@ -10,7 +10,7 @@ from flask_login import current_user
 @login_required
 def myProfile():
     myRevs = StudentReview.objects(student=current_user)
-    return render_template('profilemy.html')
+    return render_template('profilemy.html',myRevs=myRevs)
 
 
 @app.route('/myprofile/edit', methods=['GET','POST'])

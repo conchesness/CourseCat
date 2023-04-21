@@ -35,15 +35,34 @@
 </div>
 <div class="row">
     <div class="col">
-        {% for rev in myReviews %}
-            {{rev.teacher_course.course.course_title}} 
-            {{rev.teacher_course.teacher.lname}} 
-            {{rev.late_work}} 
-            {{rev.feedback}} 
-            {{rev.classcontrol}}
-            {{rev.classroom_environment}}
-            {{rev.grading_policy}} <br>
-        {% endfor %}
+        <h1>My Reviews</h1>
+        <table class="table">
+            <tr>
+                <th>Date</th>
+                <th>Course</th>
+                <th>Teacher</th>
+                <th>Late Work</th>
+                <th>Willingness for Feedback</th>
+                <th>Class Control</th>
+                <th>Classroom Environment</th>
+                <th>Grading Policy Clarity</th>
+            </tr>
+            {% for rev in myRevs %}
+            <tr>
+                <td>
+                    <a href="/srev/delete/{{rev.id}}">Del</a> 
+                    {{moment(rev.create_date).calendar()}}
+                </td>
+                <td>{{rev.teacher_course.course.course_title}}</td>
+                <td>{{rev.teacher_course.teacher.lname}}</td>
+                <td>{{rev.late_work}}</td>
+                <td>{{rev.feedback}}</td>
+                <td>{{rev.classcontrol}}</td>
+                <td>{{rev.classroom_environment}}</td>
+                <td>{{rev.grading_policy}}</td>
+            </tr>
+            {% endfor %}
+        </table>
     </div>
 </div>
 <br>

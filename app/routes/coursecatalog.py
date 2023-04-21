@@ -422,8 +422,11 @@ def srevs():
 @app.route('/srev/delete/<srid>')
 def srevdelete(srid):
     thisSRev = StudentReview.objects.get(id=srid)
-    thisSRev.delete()
-    return redirect(url_for('srevs'))
+    if current_user.isadmin or current_user == thisSRev.student:
+        thisSRev.delete()
+        return redirect(url_for('myprofile'))
+    flash("You can't delete this review.")
+    return redirect(url_for('myprofile'))
 
 @app.route('/studentreview/new/<tcid>', methods=['GET', 'POST'])
 @login_required
