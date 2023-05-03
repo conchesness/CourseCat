@@ -5,9 +5,12 @@ body {
 html {
 	font-size: 16px;
 	font-family: "Raleway", sans-serif;
-	color: #fff;
-	
+	color: #fff;	
 }
+
+/* html body {
+	background-color: ;
+} */
 
 .ml-6 {
     margin-left: 7rem;

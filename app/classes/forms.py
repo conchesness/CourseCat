@@ -12,7 +12,7 @@ from wtforms import PasswordField, StringField, SubmitField, TextAreaField, Hidd
 from app.classes.data import User
 
 departments = [("",""),("Mathmatics","Mathmatics"),("Science", "Science"),("English", "English"),("Visual and Performing Arts", "Visual and Performing Arts"),("Humanities", "Humanities"),("PE", "Physical Education (PE)"), ("World Languages", "World Languages"), ("CTE", "Career Techincal Education (CTE)"),("Other Elective","Other Elective")]
-pathways = [("",""),("Computer Science","Computer Science"),("Engineering","Engineering"),("FADA","FADA"),("Health","Health"),("Race, Policy and Law","Race, Policy and Law")]
+pathways = [("",""),("Computer Science","Computer Science"),("Engineering","Engineering"),("FADA","FADA"),("Health","Health"),("Race, Policy and Law","Race, Policy and Law"),("Any","Any")]
 
 class CourseFilterForm(FlaskForm):
     department = SelectField('Department',choices = departments)
@@ -71,7 +71,7 @@ class CoursesForm(FlaskForm):
     course_department = SelectField('Course Department',choices=departments)
     course_pathway = SelectField('Course Pathway', choices=pathways)
     course_paideia_option = BooleanField('Paideia Option')
-    course_gradelevel = SelectField('Grade Level', choices=[("",""),("9th","9th"),("10th","10th"),("11th","11th"),("12th","12th")])
+    course_gradelevel = SelectField('Grade Level', choices=[("",""),("9th","9th"),("10th","10th"),("11th","11th"),("12th","12th"),("Any","Any")])
     submit = SubmitField('Add Course')
 
 class TeacherCourseForm(FlaskForm):

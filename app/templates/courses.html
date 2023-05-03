@@ -4,14 +4,16 @@
 
 {% block body %}
 
-    <h1 class="display-5">
+    <h1 class="display-5 text-center">
         {{title}}
     </h1>
+    <div class="text-center">
         {% if title == "Active Courses" %}
         <small>All of these classes are being taught this year so they are likely to be taught next year.</small>
         {% else %}
         <small>Some of these classes are NOT being taught this year so they may not be taught next year.</small>
         {% endif %}
+    </div>
 
 <div class="mb-3">
     <a href="/course/new" class="btn btn-primary btn-sm mt-5" role="button">New Course</a>

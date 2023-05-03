@@ -35,7 +35,7 @@ def course(courseID):
 @login_required
 def activecourses(skip=0):
     skip=int(skip)
-    limit=20
+    limit=110
 
     form = CourseFilterForm()
 

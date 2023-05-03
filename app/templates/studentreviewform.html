@@ -21,6 +21,7 @@ copy this one and then edit it. -->
             <div class="row">
                 <div class="col-5 bg-white">
                     <p class="fs-1">Your Review</p>
+                    Please only review the teacher if you have taken the class.
                     <p>
                         {{ form.year_taken.label }}: 
                         {{ form.year_taken(size=6) }} 
@@ -68,7 +69,14 @@ copy this one and then edit it. -->
                         {% endfor %}
                          Always
                     </p>
-                    <p class="fs-6">{{tCourse.teacher.late_work_policy}}</p>
+                    {% if tCourse.teacher.late_work %}
+                        <p class="fs-6">{{tCourse.teacher.late_work_policy}}</p>
+                    {% else %}
+                    <p class="fs-6">
+                        {{tCourse.teacher.fname}} {{tCourse.teacher.lname}} has not yet enterred their late work policy. 
+                        Please rate them based on your experience in their class from NEVER accepts late work to Always. 
+                    </p>
+                    {% endif %}
                 </div>
                 <div class="col-12"><hr class="w-100"></div>
                 <div class="col-5 bg-white">
@@ -105,7 +113,14 @@ copy this one and then edit it. -->
                         {% endfor %}
                          Always
                     </p>
-                    <p class="fs-6">{{tCourse.teacher.feedback_policy}}</p>
+                    {% if tCourse.teacher.feedback %}
+                        <p class="fs-6">{{tCourse.teacher.feedback_policy}}</p>
+                    {% else %}
+                        <p class="fs-6">
+                            {{tCourse.teacher.fname}} {{tCourse.teacher.lname}} has not yet enterred their feedback policy. 
+                            Please rate them based on your experience in their class from NEVER accepts feedback on thier teaching to always. 
+                        </p>
+                    {% endif %}
                 </div>
                 <div class="col-12"><hr class="w-100"></div>
                 <div class="col-5 bg-white">
@@ -142,7 +157,14 @@ copy this one and then edit it. -->
                         {% endfor %}
                          Control
                     </p>
-                    <p class="fs-6">{{tCourse.teacher.classcontrol_policy}}</p>                
+                    {% if tCourse.teacher.classcontrol_policy %}
+                        <p class="fs-6">{{tCourse.teacher.classcontrol_policy}}</p>
+                    {% else %}
+                    <p class="fs-6">
+                        {{tCourse.teacher.fname}} {{tCourse.teacher.lname}} has not yet enterred their class control policy. 
+                        Please rate them based on your experience in their class from a CHAOTIC classroom to a CONTROLLED classroom. 
+                    </p>
+                    {% endif %}              
                 </div>
                 <div class="col-12"><hr class="w-100"></div>
                 <div class="col-5 bg-white">
@@ -165,7 +187,14 @@ copy this one and then edit it. -->
                     </p>                
                 </div>
                 <div class="col-7">
-                    <p class="fs-6 pt-5">{{tCourse.teacher.grading_policy}}</p>                
+                    {% if tCourse.teacher.grading_policy %}
+                        <p class="fs-6">{{tCourse.teacher.grading_policy}}</p>
+                    {% else %}
+                    <p class="fs-6">
+                        {{tCourse.teacher.fname}} {{tCourse.teacher.lname}} has not yet enterred their grading policy. 
+                        Please rate them based on your experience in their class from a CONFUSING grading policy t0 a CLEAR one. 
+                    </p>
+                    {% endif %}  
                 </div>
                 <div class="col-12"><hr class="w-100"></div>
                 <div class="col-5 bg-white">
@@ -188,7 +217,14 @@ copy this one and then edit it. -->
                     </p>                
                 </div>
                 <div class="col-7">
-                    <p class="fs-6 pt-5">{{tCourse.teacher.classroom}}</p>                
+                    {% if tCourse.teacher.classroom %}
+                        <p class="fs-6">{{tCourse.teacher.classroom}}</p>
+                    {% else %}
+                    <p class="fs-6">
+                        {{tCourse.teacher.fname}} {{tCourse.teacher.lname}} has not yet enterred a description of their classroom environment. 
+                        Please rate them based on your experience in their class from a COLD environment to a WARM one. 
+                    </p>
+                    {% endif %}               
                 </div>
             </div>
             {{form.submit()}}
