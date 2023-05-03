@@ -40,11 +40,11 @@ copy this one and then edit it. -->
                     <p class="text-center">
                         Never {{ form.late_work(min=1, max=5, oninput="outputLWUpdate(value)") }} Always
                     </p>
-                    <p class="text-center fs-4">
+                    <div class="text-center fs-4">
                         <output for="lw" id="lwork">
                                 {{ form.late_work.data }}
                         </output>
-                    </p>
+                    </div>
                     <p>
                         <!--List the errors for this field-->
                         {% for error in form.late_work.errors %}

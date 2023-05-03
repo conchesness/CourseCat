@@ -25,8 +25,22 @@
                 <h2>{{ns.letter}}</h2>
             </div>
         {% endif %}
-        <div class="col-3">
-            <h3><a href="/teacher/{{teacher.id}}" class="text-capitalize">{{teacher.fname}} {{teacher.lname}}</a></h3> 
+        <div class="col-4">
+            <div class="row">
+                <div class="col">
+                    <h3>
+                        <a href="/teacher/{{teacher.id}}" class="text-capitalize">{{teacher.fname}} {{teacher.lname}}</a>
+                    </h3> 
+                </div>
+                <div class="col">
+                    <small>
+                        {% if teacher.late_work %}lw{% endif %}
+                        {% if teacher.feedback %}fb{% endif %}
+                        {% if teacher.classcontrol %}cc{% endif %}
+                        {% if teacher.grading_policy %}gp{% endif %}
+                    </small>
+                </div>
+            </div>
         </div>
     {% endfor %}
 </div>
