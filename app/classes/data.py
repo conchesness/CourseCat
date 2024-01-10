@@ -13,11 +13,10 @@ from setuptools import SetuptoolsDeprecationWarning
 from app import app
 from flask import flash
 from flask_login import UserMixin
-from mongoengine import FileField, EmailField, StringField, IntField, ReferenceField, DateTimeField, BooleanField, CASCADE
-from flask_mongoengine import Document
+from mongoengine import Document, FileField, EmailField, StringField, IntField, ReferenceField, DateTimeField, BooleanField, CASCADE
+#from flask-mongoengine import Document
 from werkzeug.security import generate_password_hash, check_password_hash
 import datetime as dt
-import jwt
 from time import time
 #from bson.objectid import ObjectId
 

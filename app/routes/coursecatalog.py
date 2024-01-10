@@ -1,7 +1,8 @@
-from traceback import format_exception_only
 from app import app
+import pandas as pd
 import mongoengine.errors
-from flask import render_template, flash, redirect, url_for, Markup
+from flask import render_template, flash, redirect, url_for
+from markupsafe import Markup
 from flask_login import current_user
 from app.classes.data import Courses, Comment, TeacherCourse, User, StudentReview
 from app.classes.forms import StudentReviewForm, TeacherForm, CoursesForm, CommentForm, CourseFilterForm, TeacherCourseForm
@@ -9,7 +10,6 @@ from flask_login import login_required
 import datetime as dt
 from mongoengine import Q
 import json
-import pandas as pd
 
 @app.route('/resultstocsv')
 def resultsToCSV():

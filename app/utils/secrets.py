@@ -2,8 +2,6 @@ import os
 
 def getSecrets():
     secrets = {
-        'MAIL_PASSWORD':os.environ.get('MAIL_PASSWORD'),
-        'MAIL_USERNAME':os.environ.get('MAIL_USERNAME'),
         'MONGO_HOST':os.environ.get('cc_mongodb_host'),
         'MONGO_DB_NAME':'coursecat',
         'GOOGLE_CLIENT_ID': os.environ.get('cc_google_client_id'),
